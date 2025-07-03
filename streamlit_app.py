@@ -71,13 +71,13 @@ with st.spinner("Generating your lesson..."):
     try:
         response = openai.chat.completions.create(
             model="gpt-4o",
-            # your other parameters here...
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=600,
+            temperature=0.7,
         )
-                messages=[{"role": "user", "content": prompt}],
-                    max_tokens=600,
-                    temperature=0.7,
-                )
-                st.write(response.choices[0].message.content)
+        st.write(response.choices[0].message.content)
+    except Exception as e:
+        st.error(f"Error: {e}")
             except Exception as e:
                 st.error("There was an error generating the lesson. Check your OpenAI key and try again.")
     else:
