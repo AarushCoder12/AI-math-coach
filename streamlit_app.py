@@ -57,7 +57,7 @@ if submitted:
             st.success(f"{topic.title()}: Correct ✅")
 
     if incorrect_topics:
-        st.subheader("📘 Personalized Lesson")
+       st.subheader("📘 Personalized Lesson")
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
@@ -65,14 +65,14 @@ prompt = (
     "You are a friendly 6th grade math tutor. "
     "Create a short and simple lesson for the following topics:\n"
     + ", ".join(incorrect_topics)
+    + "\nInclude examples and 1 practice problem per topic."
 )
-Include examples and 1 practice problem per topic."
+with st.spinner("Generating your lesson..."):
+    try:
+        response = openai.chat.completions.create(
+            model="gpt-4o",
+            # your other parameters here...
         )
-
-        with st.spinner("Generating your lesson..."):
-            try:
-                response = openai.chat.completions.create(
-                    model="gpt-4o",
                     messages=[{"role": "user", "content": prompt}],
                     max_tokens=600,
                     temperature=0.7,
