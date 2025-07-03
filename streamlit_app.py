@@ -73,7 +73,7 @@ with st.spinner("Generating your lesson..."):
             model="gpt-4o",
             # your other parameters here...
         )
-                    messages=[{"role": "user", "content": prompt}],
+                messages=[{"role": "user", "content": prompt}],
                     max_tokens=600,
                     temperature=0.7,
                 )
