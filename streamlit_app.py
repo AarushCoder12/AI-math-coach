@@ -1,7 +1,5 @@
-
 import streamlit as st
 import openai
-import os
 
 st.set_page_config(page_title="AI Math Coach", page_icon="🧠")
 
@@ -46,7 +44,7 @@ with st.form("quiz_form"):
 if submitted:
     incorrect_topics = []
     for topic, q in questions.items():
-        if user_answers[topic] != q["answer"]:
+        if user_answers.get(topic) != q["answer"]:
             incorrect_topics.append(topic)
 
     st.subheader("✅ Quiz Results")
@@ -57,32 +55,28 @@ if submitted:
             st.success(f"{topic.title()}: Correct ✅")
 
     if incorrect_topics:
-       st.subheader("📘 Personalized Lesson")
+        st.subheader("📘 Personalized Lesson")
 
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+        openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-prompt = (
-    "You are a friendly 6th grade math tutor. "
-    "Create a short and simple lesson for the following topics:\n"
-    + ", ".join(incorrect_topics)
-    + "\nInclude examples and 1 practice problem per topic."
-)
-with st.spinner("Generating your lesson..."):
-    try:
-        response = openai.chat.completions.create(
-            model="gpt-4o",
-            messages=[{"role": "user", "content": prompt}],
-           try:
-    response = openai.chat.completions.create(
-        model="gpt-4o",
-        messages=[{"role": "user", "content": prompt}],
-        max_tokens=600,
-        temperature=0.7,
-    )
-    st.write(response.choices[0].message.content)
-except Exception as e:
-    st.error("There was an error generating the lesson. Check your OpenAI key and try again.")
-else:
-    st.balloons()
-    st.success("You got everything right! Great job! 🎉")
+        prompt = (
+            "You are a friendly 6th grade math tutor. "
+            "Create a short and simple lesson for the following topics:\n"
+            + ", ".join(incorrect_topics)
+            + "\nInclude examples and 1 practice problem per topic."
+        )
 
+        with st.spinner("Generating your lesson..."):
+            try:
+                response = openai.chat.completions.create(
+                    model="gpt-4o",
+                    messages=[{"role": "user", "content": prompt}],
+                    max_tokens=600,
+                    temperature=0.7,
+                )
+                st.write(response.choices[0].message.content)
+            except Exception as e:
+                st.error("There was an error generating the lesson. Check your OpenAI key and try again.")
+    else:
+        st.balloons()
+        st.success("You got everything right! Great job! 🎉")
