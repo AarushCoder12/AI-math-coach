@@ -59,15 +59,13 @@ if submitted:
     if incorrect_topics:
         st.subheader("📘 Personalized Lesson")
 
-        openai.api_key = st.secrets["OPENAI_API_KEY"]
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-        prompt = (
-            "You are a friendly 6th grade math tutor. "
-            "Create a short and simple lesson for the following topics:
-"
-            + ", ".join(incorrect_topics) +
-            "
-
+prompt = (
+    "You are a friendly 6th grade math tutor. "
+    "Create a short and simple lesson for the following topics:\n"
+    + ", ".join(incorrect_topics)
+)
 Include examples and 1 practice problem per topic."
         )
 
