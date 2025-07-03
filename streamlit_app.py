@@ -69,19 +69,17 @@ prompt = (
 )
 with st.spinner("Generating your lesson..."):
     try:
-        response = openai.chat.completions.create(
-            model="gpt-4o",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=600,
-            temperature=0.7,
-        )
-        st.write(response.choices[0].message.content)
-    except Exception as e:
-        st.error(f"Error: {e}")
+    response = openai.chat.completions.create(
+        model="gpt-4o",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=600,
+        temperature=0.7,
+    )
     st.write(response.choices[0].message.content)
 except Exception as e:
     st.error("There was an error generating the lesson. Check your OpenAI key and try again.")
 else:
     st.balloons()
     st.success("You got everything right! Great job! 🎉")
+
 
